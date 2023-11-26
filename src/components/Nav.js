@@ -15,28 +15,29 @@ export default function NavBar() {
       }, []);
     return (
         <div className="min-h-full">
-            <nav className="bg-gray-600 fixed top-0 left-0 w-full z-50">
+            <nav className="bg-gray-500 fixed top-0 left-0 w-full z-50">
                 <div className="mx-auto max-w-1xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
-                        <div className="flex items-center">
-                            <div className="flex-shrink-0">
+                        <div className="flex w-full items-center">
+                            {/* Logo */}
+                            <div className="flex-none mx-4 justify-start">
                                 <img className="h-32 w-32" src="https://upload.wikimedia.org/wikipedia/commons/0/02/Northeastern_Wordmark.svg" alt="Northeastern University" />
                             </div>
-                            <div className="hidden md:block">
-                                <div className="ml-10 flex items-baseline space-x-4">
+
+                            {/* Navigation Links - Show/Hide based on screen size */}
+                            <div className="hidden md:flex justify-center">
+                                <div className="flex items-baseline space-x-4">
                                     <ScrollToTest />
                                     <Link href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Home</Link>
                                     <Link href="/previous-jobs" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Previous Jobs</Link>
-                                </div>                       
+                                </div>
                             </div>
-                            <div className="ml-[350px] text-white text-lg font-semibold">
-                                THE ANGSTRONOMERS
-                            </div> 
                         </div>
                     </div>
                 </div>
             </nav>
         </div>
+
     );
   }
   

@@ -3,13 +3,13 @@ import React, {useState} from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 
 // TODO: EDIT LINK LOGIC
-const itemsPerPage = 3;
+const itemsPerPage = 12;
 
 const TableComponent = ({ data }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
   const totalPages = Math.ceil(data.length / itemsPerPage);
-
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentItems = data.slice(startIndex, endIndex);
@@ -28,10 +28,27 @@ const TableComponent = ({ data }) => {
   };
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      
-      <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <div className="relative overflow-x-auto sm:rounded-lg"> 
+      <div className="pb-4 bg-white">
+        <label htmlFor="table-search" className="sr-only">Search</label>
+        <div className="relative mt-1">
+          <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center pl-3 pointer-events-none">
+            <svg className="w-4 h-4 text-gray-500" aria-hidden="true" fill="none" viewBox="0 0 20 20">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+          </div>
+          <input 
+            type="text" 
+            id="table-search" 
+            className="block w-80 rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 placeholder-gray-500 focus:ring-red-500 focus:border-red-500" 
+            placeholder="Search for Test Name" 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
+      <table className="w-full text-sm text-center rtl:text-right text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-200">
           <tr>
             <th scope="col" className="px-6 py-3">Test Name</th>
             <th scope="col" className="px-6 py-3">Date</th>
@@ -45,8 +62,11 @@ const TableComponent = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {currentItems.map((row, index) => (
-            <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          {currentItems.filter((item) => {
+            return searchTerm.toLowerCase() === '' ? item : item.testName.
+            toLowerCase().includes(searchTerm);
+          }).map((row, index) => (
+            <tr key={index} className="bg-white border-b">
         
               <td className="px-6 py-4">{row.testName}</td>
               <td className="px-6 py-4">{row.date}</td>
@@ -58,7 +78,7 @@ const TableComponent = ({ data }) => {
               <td className="px-6 py-4">{row.conductivity}</td>
               <td className="px-6 py-4">
               
-                <a href="#" className="font-medium text-red-600 dark:red-blue-500 hover:underline">Edit</a>
+                <a href="#" className="font-medium text-red-600 hover:underline">Edit</a>
               </td>
             </tr>
           ))}

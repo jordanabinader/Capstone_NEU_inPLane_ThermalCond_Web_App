@@ -32,7 +32,7 @@ const initialFilters = [
     range: { min: '', max: '' },
   },
   {
-    id: 'cp',
+    id: 'specificHeatCapacity',
     name: 'Specific Heat',
     range: { min: '', max: '' }, 
   },
@@ -109,6 +109,7 @@ export default function FilterTable() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [filters, setFilters] = useState(initialFilters);
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleChange = (id, value, type) => {
     const updatedFilters = filters.map(f => {
@@ -118,16 +119,37 @@ export default function FilterTable() {
         }
         return { ...f, searchTerm: value };
       }
+      console.log(f)
       return f;
     });
+
     setFilters(updatedFilters);
+    filterData();
+  };
+
+  const filterData = () => {
+    let filteredData = [...testData];
+
+    filters.forEach(filter => {
+      if (filter.searchTerm) {
+        filteredData = filteredData.filter(item => item[filter.id].toLowerCase().includes(filter.searchTerm.toLowerCase()));
+      } else if (filter.range) {
+        filteredData = filteredData.filter(item => {
+          const value = parseFloat(item[filter.id]);
+          const min = filter.range.min ? parseFloat(filter.range.min) : -Infinity;
+          const max = filter.range.max ? parseFloat(filter.range.max) : Infinity;
+          return value >= min && value <= max;
+        });
+      }
+    });
+
+    setData(filteredData);
   };
 
   useEffect(() => {
     // Fetch data and set it using setData
     setData(testData)
   }, []);
-
 
   return (
     <div className="bg-white">
@@ -215,7 +237,7 @@ export default function FilterTable() {
                                         className="binput input-bordered w-full max-w-xs text-sm"
                                         placeholder={`Search ${section.name}`}
                                         value={section.searchTerm}
-                                        onChange={handleChange}
+                                        onChange={(e) => handleChange(section.id, e.target.value)}
                                         />
                                     ) : (
                                         <div className="flex space-max">
@@ -228,7 +250,7 @@ export default function FilterTable() {
                                                 placeholder="0.00" 
                                                 className="input input-bordered" 
                                                 value={section.range.min}
-                                                onChange={handleChange}
+                                                onChange={(e) => handleChange(section.id, e.target.value, 'min')}
                                                 />
                                             </div>
 
@@ -241,7 +263,7 @@ export default function FilterTable() {
                                                 placeholder="0.00" 
                                                 className="input input-bordered" 
                                                 value={section.range.max}
-                                                onChange={handleChange}
+                                                onChange={(e) => handleChange(section.id, e.target.value, 'max')}
                                                 />
                                             </div>
                                         </div>  
@@ -262,7 +284,6 @@ export default function FilterTable() {
         <main className="mx-auto max-w-full  sm:px-10 lg:px-12">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-700">Previous Jobs</h1>
-
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
