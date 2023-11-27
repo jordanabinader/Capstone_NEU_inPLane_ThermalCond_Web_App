@@ -78,7 +78,8 @@ const TableComponent = ({ data }) => {
               <td className="px-6 py-4">{row.conductivity}</td>
               <td className="px-6 py-4">
               
-                <a href="#" className="font-medium text-red-600 hover:underline">Edit</a>
+                <a href="#" className="font-medium text-red-600 hover:underline">View</a>
+                <a href="#" className="font-medium text-red-600 hover:underline ml-2">Delete</a>
               </td>
             </tr>
           ))}

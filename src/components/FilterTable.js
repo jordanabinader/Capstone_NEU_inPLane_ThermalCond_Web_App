@@ -17,8 +17,13 @@ const sortOptions = [
 ]
 const initialFilters = [
   {
-    id: 'testType',
-    name: 'Test Type',
+    id: 'conductivity',
+    name: 'Conductivity',
+    range: { min: '', max: '' },
+  },
+  {
+    id: 'diffusivity',
+    name: 'Diffusivity',
     range: { min: '', max: '' },
   },
   {
@@ -37,10 +42,6 @@ const initialFilters = [
     range: { min: '', max: '' }, 
   },
 ]
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
 const testData = [
   {
@@ -109,30 +110,39 @@ export default function FilterTable() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [filters, setFilters] = useState(initialFilters);
   const [data, setData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
 
+  useEffect(() => {
+    // Fetch data and set it using setData
+    setData(testData)
+  }, []);
+
+  useEffect(() => {
+    filterData()
+  }, [filters])
+  
   const handleChange = (id, value, type) => {
     const updatedFilters = filters.map(f => {
       if (f.id === id) {
         if (type === 'min' || type === 'max') {
           return { ...f, range: { ...f.range, [type]: value } };
+        } else if (type === 'searchTerm') {
+          return { ...f, searchTerm: value };
         }
-        return { ...f, searchTerm: value };
       }
-      console.log(f)
       return f;
     });
-
     setFilters(updatedFilters);
-    filterData();
   };
 
   const filterData = () => {
     let filteredData = [...testData];
-
     filters.forEach(filter => {
       if (filter.searchTerm) {
-        filteredData = filteredData.filter(item => item[filter.id].toLowerCase().includes(filter.searchTerm.toLowerCase()));
+        console.log('filtering')
+        filteredData = filteredData.filter((item) => {
+          return filter.searchTerm.toLowerCase() === '' ? item : item[filter.id].
+          toLowerCase().includes(filter.searchTerm);
+        });
       } else if (filter.range) {
         filteredData = filteredData.filter(item => {
           const value = parseFloat(item[filter.id]);
@@ -145,11 +155,6 @@ export default function FilterTable() {
 
     setData(filteredData);
   };
-
-  useEffect(() => {
-    // Fetch data and set it using setData
-    setData(testData)
-  }, []);
 
   return (
     <div className="bg-white">
@@ -237,7 +242,7 @@ export default function FilterTable() {
                                         className="binput input-bordered w-full max-w-xs text-sm"
                                         placeholder={`Search ${section.name}`}
                                         value={section.searchTerm}
-                                        onChange={(e) => handleChange(section.id, e.target.value)}
+                                        onChange={(e) => handleChange(section.id, e.target.value, 'searchTerm')}
                                         />
                                     ) : (
                                         <div className="flex space-max">
@@ -383,9 +388,9 @@ export default function FilterTable() {
                                         <input
                                         type="text"
                                         className="input input-bordered w-full max-w-xs text-sm"
-                                        placeholder={`Copper`}
+                                        placeholder={`Search ${section.name}`}
                                         value={section.searchTerm}
-                                        onChange={(e) => handleChange(section.id, e.target.value)}
+                                        onChange={(e) => handleChange(section.id, e.target.value, 'searchTerm')}
                                         />
                                     ) : (
                                         <div className="flex">
@@ -408,7 +413,7 @@ export default function FilterTable() {
                                                 </label>
                                                 <input 
                                                 type="text" 
-                                                placeholder="0.00" 
+                                                placeholder="inf" 
                                                 className="input input-bordered text-sm" 
                                                 value={section.range.max}
                                                 onChange={(e) => handleChange(section.id, e.target.value, 'max')}
