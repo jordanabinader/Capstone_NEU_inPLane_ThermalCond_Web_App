@@ -62,7 +62,14 @@ const TestGraph = () => {
         <div className='bg-white'>
             <div className='grid md:grid-cols-2 grid-cols-1'>
                 <div className='rounded-md flex flex-col justify-between'>
-                    <div className="bg-gray-200 h-full">chart</div>
+                    <div className="bg-gray-200 h-full">
+                    <iframe
+                        title="Bokeh Plot"
+                        src="http://localhost:8000"
+                        width="100%"
+                        height="100%"
+                    />
+                    </div>
                     <div className="flex justify-center mt-6"> 
                         <button 
                             className="rounded-md bg-red-600 px-3.5 py-2.5 mb-4 text-md font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" 
