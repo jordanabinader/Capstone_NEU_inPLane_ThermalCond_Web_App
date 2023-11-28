@@ -45,6 +45,7 @@ const initialFilters = [
 
 const testData = [
   {
+    testId: 1,
     testName: 'Test 1',
     date: '12/12/2012',
     material: 'Copper',
@@ -55,6 +56,7 @@ const testData = [
     conductivity: '1'
   },
   {
+   testId: 2,
     testName: 'Test 2',
     date: '12/13/2012',
     material: 'Gold',
@@ -65,6 +67,7 @@ const testData = [
     conductivity: '1'
   },
   {
+    testId: 3,
     testName: 'Test 3',
     date: '12/13/2012',
     material: 'Silver',
@@ -75,6 +78,7 @@ const testData = [
     conductivity: '1'
   },
   {
+    testId: 4,
     testName: 'Test 4',
     date: '12/19/2012',
     material: 'Aluminum',
@@ -85,6 +89,7 @@ const testData = [
     conductivity: '1'
   },
   {
+    testId: 5,
     testName: 'Test 5',
     date: '12/19/2012',
     material: 'Aluminum',
@@ -95,6 +100,7 @@ const testData = [
     conductivity: '1'
   },
   {
+    testId: 6,
     testName: 'Test 6',
     date: '12/19/2012',
     material: 'Aluminum',

@@ -45,7 +45,7 @@ export default function Modal({action, onCancel, onSubmit}) {
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Are you sure you want to {action}? You will not be able to change inputs
+                          Are you sure you want to {action}? 
                         </p>
                       </div>
                     </div>

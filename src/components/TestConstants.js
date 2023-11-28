@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import StartTest from './StartTest';
 import InputField from './InputField';
 import { My_Soul } from 'next/font/google';
 import Modal from './Modal';
@@ -9,8 +8,8 @@ const TestConstants = () => {
   const [testSetup, setTestSetup] = useState({
     testName: '',
     material: '',
-    density: '',
-    specificHeat: '',
+    density: '1',
+    specificHeat: '1',
     tcdistance: '',
     testType: 'Conductivity' // 'Conductivity' or 'Diffusivity'
   });
@@ -50,31 +49,7 @@ const TestConstants = () => {
           </h1>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:gap-2">
-          <div className="border-l border-gray-300 p-14">
-            <div className="tabs tabs-boxed bg-gray-100">
-              <label className="tab bg-gray-100">
-                <input
-                  type="checkbox"
-                  name="testType"
-                  className='checkbox checkbox-error'
-                  value="conductivity"
-                  checked={testSetup.testType === 'conductivity'}
-                  onChange={handleChange}
-                />
-                <span className="label-text ml-5">Conductivity</span>
-              </label>
-              <label className="tab bg-gray-100">
-                <input
-                  type="checkbox"
-                  name="testType"
-                  className='checkbox checkbox-error'
-                  value="diffusivity"
-                  checked={testSetup.testType === 'diffusivity'}
-                  onChange={handleChange}
-                />
-                <span className="label-text ml-5">Diffusivity</span>
-              </label>
-            </div>
+          <div className="border-l border-gray-300 px-14">
             <InputField
               label="Test Name"
               id="testname"
@@ -121,7 +96,7 @@ const TestConstants = () => {
           </div>
           <div className="flex justify-center">
             <button 
-              className="rounded-md bg-red-600 px-3.5 py-2.5 text-md font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              className="rounded-md bg-red-600 px-3.5 py-2.5 mt-8 text-md font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
               aria-current="page"
               type="button"
               onClick={handleOpenModal}
@@ -134,7 +109,6 @@ const TestConstants = () => {
                 onCancel={handleCloseModal}
                 onSubmit={handleSubmit}
               />
-              
             )}
           </div>  
         </div>

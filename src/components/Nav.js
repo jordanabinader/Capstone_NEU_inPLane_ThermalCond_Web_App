@@ -19,12 +19,9 @@ export default function NavBar() {
                 <div className="mx-auto max-w-1xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex w-full items-center">
-                            {/* Logo */}
                             <div className="flex-none mx-4 justify-start">
-                                <img className="h-32 w-32" src="https://upload.wikimedia.org/wikipedia/commons/0/02/Northeastern_Wordmark.svg" alt="Northeastern University" />
+                                <img className="h-32 w-32" src="/Northeastern_Wordmark.svg" alt="Northeastern University" />
                             </div>
-
-                            {/* Navigation Links - Show/Hide based on screen size */}
                             <div className="hidden md:flex justify-center">
                                 <div className="flex items-baseline space-x-4">
                                     <ScrollToTest />

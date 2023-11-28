@@ -65,8 +65,8 @@ const TableComponent = ({ data }) => {
           {currentItems.filter((item) => {
             return searchTerm.toLowerCase() === '' ? item : item.testName.
             toLowerCase().includes(searchTerm);
-          }).map((row, index) => (
-            <tr key={index} className="bg-white border-b">
+          }).map((row) => (
+            <tr key={row.testId} className="bg-white border-b">
         
               <td className="px-6 py-4">{row.testName}</td>
               <td className="px-6 py-4">{row.date}</td>
@@ -78,7 +78,7 @@ const TableComponent = ({ data }) => {
               <td className="px-6 py-4">{row.conductivity}</td>
               <td className="px-6 py-4">
               
-                <a href="#" className="font-medium text-red-600 hover:underline">View</a>
+                <a href={'/previous-jobs/' + row.testId} className="font-medium text-red-600 hover:underline">Edit</a>
                 <a href="#" className="font-medium text-red-600 hover:underline ml-2">Delete</a>
               </td>
             </tr>
