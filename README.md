@@ -6,6 +6,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+NOTE: For use with TC-08, you will likely have to modify library.py of picosdk.
+
+ex. "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/picosdk/library.py"
+
+Edit the first line after def _load(self):
+
+library_path = find_library(self.name) ->
+library_path = '/Library/Frameworks/PicoSDK.framework/Libraries/libusbtc08/libusbtc08.dylib' For running on Charlie's Macbook Pro
+
+
 First, run the development server:
 
 ```bash

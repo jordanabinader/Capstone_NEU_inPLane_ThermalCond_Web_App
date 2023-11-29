@@ -33,7 +33,7 @@ TIMESTAMP_FRQ_CHANGE = '2000-01-01 00:00:00'
 # Constant
 UPDATE_WAIT = 1000  # in ms, time between updating plot
 TC_TIME_SHIFT = 0.68  # Time difference between TCs (.68)
-SAMPLING_RATE = 1 / 0.01  # 1/.01 for csv, 1/.2 for daq (can safely be inaccurate) TODO
+SAMPLING_RATE = 1 / 0.01  # 1/.01 for csv, 1/0.316745311 for daq (can safely be inaccurate)
 PERIODS_TO_VIEW = 2.5  # Determines how many periods of the sine curve will be graphed
 MAX_GRAPH_BUFFER = int(PERIODS_TO_VIEW * (1 / OPAMP_FREQUENCY) * SAMPLING_RATE)
 DATABASE_NAME = 'your_database.db'

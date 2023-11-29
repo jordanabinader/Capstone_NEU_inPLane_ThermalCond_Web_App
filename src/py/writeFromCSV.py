@@ -36,7 +36,7 @@ temps6 = list(df['TC6'])
 
 # Create a table
 cursor.execute(f'''CREATE TABLE IF NOT EXISTS {TABLE_NAME} (
-                date_time TEXT NOT NULL,
+                date_time TEXT DEFAULT CURRENT_TIMESTAMP,
                 relTime REAL NOT NULL,
                 temp1 REAL NOT NULL,
                 temp2 REAL NOT NULL,
