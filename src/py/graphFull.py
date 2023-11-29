@@ -7,10 +7,11 @@ from bokeh.embed import server_document
 from bokeh.plotting import figure, curdoc, output_file, save
 from bokeh.models import ColumnDataSource, TextInput, DataTable, TableColumn
 from bokeh.layouts import column, row
-from bokeh.models.widgets import Div
+from bokeh.models.widgets import Div, Button
 import numpy as np
 import sqlite3
 import utils as ut
+import csv
 from flask import Flask, render_template
 from bokeh.server.server import Server
 from tornado.ioloop import IOLoop
@@ -218,8 +219,34 @@ def modify_doc(doc):
     ub_input = TextInput(value="2000.0", title="Enter Upper Bound")
     lb_input.on_change("value", update_plot)
     ub_input.on_change("value", update_plot)
+    
+    def save_to_csv():
+        # Connect to the database
+        conn = sqlite3.connect(DATABASE_NAME)
+        cursor = conn.cursor()
+        #fetch all data from the table
+        cursor.execute(f"SELECT * FROM {TABLE_NAME_TC}")
+        rows = cursor.fetchall()
+        # Define the CSV file path
+        csv_file_path_TC = 'TC_DATA' + TEST_ID + '.csv'
+        # Write the data to a CSV file
+        with open(csv_file_path_TC, 'w', newline='') as csv_file:
+            csv_writer = csv.writer(csv_file)
+            # Write the header
+            header = [description[0] for description in cursor.description]
+            csv_writer.writerow(header)
+            # Write the rows
+            csv_writer.writerows(rows)
 
-    doc.add_root(column(row(plot, column(lb_input, ub_input), param_table),
+        print(f"Data exported to {csv_file_path_TC}")
+        cursor.close()
+        conn.close()
+        
+    # Create save button
+    save_button = Button(label='Save to CSV', button_type='success')
+    save_button.on_click(save_to_csv)
+
+    doc.add_root(column(row(plot, column(lb_input, ub_input), save_button, param_table),
                         row(plot2, column(textL, textDT, textM, textN)),
                         row(textD, textC, textR1, textR2)))
 
@@ -236,7 +263,7 @@ def bkapp_page(test_id):
 
 def bk_worker():
     server = Server({'/bkapp': modify_doc}, io_loop=IOLoop(),
-                    allow_websocket_origin=["localhost:7777", "127.0.0.1:7777"])
+                    allow_websocket_origin=["localhost:8124", "127.0.0.1:8124"])
     server.start()
     server.io_loop.start()
 
@@ -245,4 +272,4 @@ from threading import Thread
 Thread(target=bk_worker).start()
 
 if __name__ == '__main__':
-    app.run(port=7777)
+    app.run(port=8124)

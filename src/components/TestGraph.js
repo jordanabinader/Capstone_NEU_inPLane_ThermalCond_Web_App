@@ -65,7 +65,7 @@ const TestGraph = () => {
                     <div className="bg-gray-200 h-full">
                     <iframe
                         title="Bokeh Plot"
-                        src="http://localhost:8000"
+                        src="http://localhost:8123"
                         width="100%"
                         height="100%"
                     />

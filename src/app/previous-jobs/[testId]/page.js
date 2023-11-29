@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function EditPreviousJob(props) {
   const { testId } = props.params;
-  const testToLoad = "http://localhost:7777/" + testId.toString();
+  const testToLoad = "http://localhost:8124/" + testId.toString();
 
   return (
     <div className="bg-white mx-full max-w-full sm:px-10 lg:px-12">
@@ -13,7 +13,7 @@ export default function EditPreviousJob(props) {
         <div className='bg-white'>
           <iframe
             title="Bokeh Plot"
-            //src="http://localhost:7777/1"
+            //src="http://localhost:8124/1"
             src={testToLoad}
             width="100%"
             height="650"
