@@ -69,7 +69,7 @@ const TableComponent = ({ data }) => {
             <tr key={row.testId} className="bg-white border-b">
         
               <td className="px-6 py-4">{row.testName}</td>
-              <td className="px-6 py-4">{row.date}</td>
+              <td className="px-6 py-4">{row.datetime}</td>
               <td className="px-6 py-4">{row.material}</td>
               <td className="px-6 py-4">{row.density}</td>
               <td className="px-6 py-4">{row.specificHeatCapacity}</td>
