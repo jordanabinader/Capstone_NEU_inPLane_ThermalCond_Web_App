@@ -140,9 +140,13 @@ def modify_doc(doc):
         if lower_bound >= upper_bound:
             print("Lower Bound must be smaller.")
             return
+        if upper_bound > len(times1):
+            print("Upper Bound too high.")
+            return
 
-        lb_index = times1.index(lower_bound)
-        ub_index = times1.index(upper_bound)
+        # return index of value closest to lower or upper bound
+        lb_index = min(range(len(times1)), key=lambda i: abs(times1[i] - lower_bound))
+        ub_index = min(range(len(times1)), key=lambda i: abs(times1[i] - upper_bound))
 
         times1_plot = times1[lb_index:ub_index]
         times2_plot = times2[lb_index:ub_index]
@@ -224,7 +228,7 @@ def modify_doc(doc):
         # Connect to the database
         conn = sqlite3.connect(DATABASE_NAME)
         cursor = conn.cursor()
-        #fetch all data from the table
+        #fetch all data from the TC table - TODO Save other tables
         cursor.execute(f"SELECT * FROM {TABLE_NAME_TC}")
         rows = cursor.fetchall()
         # Define the CSV file path
@@ -254,9 +258,10 @@ def modify_doc(doc):
 @app.route('/<test_id>', methods=['GET'])
 def bkapp_page(test_id):
     global TEST_ID, TABLE_NAME_PARAM, TABLE_NAME_TC
-    TEST_ID = test_id
-    TABLE_NAME_TC = "Data" + TEST_ID
-    TABLE_NAME_PARAM = "Param" + TEST_ID
+    if test_id != "favicon.ico":
+        TEST_ID = test_id
+        TABLE_NAME_TC = "Data" + TEST_ID
+        TABLE_NAME_PARAM = "Param" + TEST_ID
     script = server_document('http://localhost:5006/bkapp')
     return render_template("embed.html", script=script, template="Flask")
 
