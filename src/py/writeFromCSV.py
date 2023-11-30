@@ -8,7 +8,7 @@ import pandas as pd
 import utils as ut
 import time
 
-VALUES_TO_READ = 20000
+VALUES_TO_READ = 2000
 SLEEP_TIME = 1
 DATABASE_NAME = 'your_database.db'
 TABLE_NAME = "Data1"

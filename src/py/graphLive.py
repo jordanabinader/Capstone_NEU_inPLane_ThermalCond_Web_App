@@ -52,7 +52,10 @@ def modify_doc(doc):
     plot.line('times1', 'temps1', source=source, line_color='blue', legend_label='TC1')
     plot.line('times1', 'temps1fit', source=source, line_color='green', legend_label='TC1FIT')
     plot.line('times2', 'temps2', source=source, line_color='red', legend_label='TC2')
-    plot.line('times2', 'temps2fit', source=source, line_color='brown', legend_label='TC2FIT')
+    plot.line('times2', 'temps2fit', source=source, line_color='yellow', legend_label='TC2FIT')
+    plot.legend.nrows=2
+    plot.legend.label_text_font_size = "6pt"
+    plot.legend.location = "bottom_left"
 
     # Create plot for temp data as read
     source2 = ColumnDataSource(data={'times1': [], 'times2': [],
@@ -62,18 +65,20 @@ def modify_doc(doc):
     plot2.toolbar_location = None
     plot2.line('times1', 'temps1', source=source2, line_color='blue', legend_label='TC1')
     plot2.line('times2', 'temps2', source=source2, line_color='red', legend_label='TC2')
+    plot2.legend.label_text_font_size = "6pt"
+    plot2.legend.location = "bottom_left"
 
     # Create text to display Diffusivity, Conductivity, R^2 Values
-    textD = Div(text="Diffusivity: ", width=150, height=25)
-    textC = Div(text="Conductivity: ", width=150, height=25)
-    textR1 = Div(text="TC1 R^2: ", width=150, height=25)
-    textR2 = Div(text="TC2 R^2: ", width=150, height=25)
-    text3 = Div(text="TC3: ", width=100, height=25)
-    text4 = Div(text="TC4: ", width=100, height=25)
-    text5 = Div(text="TC5: ", width=100, height=25)
-    text6 = Div(text="TC6: ", width=100, height=25)
-    text7 = Div(text="TC7: ", width=100, height=25)
-    text8 = Div(text="TC8: ", width=100, height=25)
+    textD = Div(text="Diffusivity: ", width=200, height=25)
+    textC = Div(text="Conductivity: ", width=200, height=25)
+    textR1 = Div(text="TC1 R^2: ", width=200, height=25)
+    textR2 = Div(text="TC2 R^2: ", width=200, height=25)
+    text3 = Div(text="TC3: ", width=130, height=25)
+    text4 = Div(text="TC4: ", width=130, height=25)
+    text5 = Div(text="TC5: ", width=130, height=25)
+    text6 = Div(text="TC6: ", width=130, height=25)
+    text7 = Div(text="TC7: ", width=130, height=25)
+    text8 = Div(text="TC8: ", width=130, height=25)
 
     # Connect to the database, create a cursor
     conn = sqlite3.connect(DATABASE_NAME)
@@ -178,17 +183,17 @@ def modify_doc(doc):
                        'temps1fit': y_fitted1, 'temps2fit': y_fitted2}
         source2.data = {'times1': times1, 'times2': times2,
                         'temps1': temps1, 'temps2': temps2}
-        textD.text = f"Diffusivity: {diffusivity}"
-        textC.text = f"Conductivity: {conductivity}"
-        textR1.text = f"TC1 R^2: {adjusted_r_squared1}"
-        textR2.text = f"TC1 R^2: {adjusted_r_squared2}"
+        textD.text = f"Diffusivity: {round(diffusivity, 6)}"
+        textC.text = f"Conductivity: {round(conductivity, 6)}"
+        textR1.text = f"TC1 R^2: {round(adjusted_r_squared1, 6)}"
+        textR2.text = f"TC2 R^2: {round(adjusted_r_squared2, 6)}"
         if results2:
-            text3.text = f"TC3: {results2[0][0]}"
-            text4.text = f"TC4: {results2[0][1]}"
-            text5.text = f"TC5: {results2[0][2]}"
-            text6.text = f"TC6: {results2[0][3]}"
-            text7.text = f"TC7: {results2[0][4]}"
-            text8.text = f"TC8: {results2[0][5]}"
+            text3.text = f"TC3: {round(results2[0][0],3)}"
+            text4.text = f"TC4: {round(results2[0][1],3)}"
+            text5.text = f"TC5: {round(results2[0][2],3)}"
+            text6.text = f"TC6: {round(results2[0][3],3)}"
+            text7.text = f"TC7: {round(results2[0][4],3)}"
+            text8.text = f"TC8: {round(results2[0][5],3)}"
 
     # Function to start periodic updates
     def start_updates():
@@ -224,12 +229,12 @@ def modify_doc(doc):
 
 @app.route('/', methods=['GET'])
 def bkapp_page():
-    script = server_document('http://localhost:5006/bkapp')
+    script = server_document('http://localhost:5006/bkapp/live')
     return render_template("embed.html", script=script, template="Flask")
 
 
 def bk_worker():
-    server = Server({'/bkapp': modify_doc}, io_loop=IOLoop(),
+    server = Server({'/bkapp/live': modify_doc}, io_loop=IOLoop(),
                     allow_websocket_origin=["localhost:8123", "127.0.0.1:8123"])
     server.start()
     server.io_loop.start()

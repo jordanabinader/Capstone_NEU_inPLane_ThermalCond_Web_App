@@ -262,12 +262,12 @@ def bkapp_page(test_id):
         TEST_ID = test_id
         TABLE_NAME_TC = "Data" + TEST_ID
         TABLE_NAME_PARAM = "Param" + TEST_ID
-    script = server_document('http://localhost:5006/bkapp')
+    script = server_document('http://localhost:5006/bkapp/full')
     return render_template("embed.html", script=script, template="Flask")
 
 
 def bk_worker():
-    server = Server({'/bkapp': modify_doc}, io_loop=IOLoop(),
+    server = Server({'/bkapp/full': modify_doc}, io_loop=IOLoop(),
                     allow_websocket_origin=["localhost:8124", "127.0.0.1:8124"])
     server.start()
     server.io_loop.start()
