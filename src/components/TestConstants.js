@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import InputField from './InputField';
 import { My_Soul } from 'next/font/google';
 import Modal from './Modal';
+import axios from 'axios';
 
 const TestConstants = () => {
   const [testSetup, setTestSetup] = useState({
@@ -11,7 +12,6 @@ const TestConstants = () => {
     density: '1',
     specificHeat: '1',
     tcdistance: '',
-    testType: 'Conductivity' // 'Conductivity' or 'Diffusivity'
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,13 +24,28 @@ const TestConstants = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (testSetup) => {
 
-    console.log(testSetup);
-    // API call to send info to the db
-    
-    window.location.href="/test"
+    try {
+      let dataToSend;
+      if (testSetup instanceof FormData) {
+        dataToSend = Object.fromEntries(testSetup.entries());
+      } else {
+        dataToSend = testSetup; 
+      }
+
+      const response = await axios.post('http://localhost:80/startTest', testSetup);
+
+      // Handle the response from the server
+      console.log('Test started successfully:', response.data);
+      // Additional logic here for successful test start (e.g., redirecting, updating UI)
+  
+    } catch (error) {
+      console.error('Error starting test:', error);
+      // Handle errors here (e.g., showing error messages to the user)
+    }
   };
+  
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -41,7 +56,7 @@ const TestConstants = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='bg-gray-100'>
+    <form className='bg-gray-100'>
       <div className="mx-auto grid max-w-2xl gap-x-8 gap-y-16 px-4 py-2 sm:px-6 sm:py-20 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
         <div className='flex justify-center items-center'>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -107,7 +122,7 @@ const TestConstants = () => {
               <Modal 
                 action="Start Test"
                 onCancel={handleCloseModal}
-                onSubmit={handleSubmit}
+                onSubmit={() => handleSubmit(testSetup)}
               />
             )}
           </div>  

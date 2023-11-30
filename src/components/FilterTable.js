@@ -47,7 +47,7 @@ const testData = [
   {
     testId: 1,
     testName: 'Test 1',
-    date: '12/12/2012',
+    datetime: '12/12/2012',
     material: 'Copper',
     density: '3.3',
     specificHeatCapacity: '2.2',
@@ -58,7 +58,7 @@ const testData = [
   {
    testId: 2,
     testName: 'Test 2',
-    date: '12/13/2012',
+    datetime: '12/13/2012',
     material: 'Gold',
     density: '4.3',
     specificHeatCapacity: '2.2',
@@ -69,7 +69,7 @@ const testData = [
   {
     testId: 3,
     testName: 'Test 3',
-    date: '12/13/2012',
+    datetime: '12/13/2012',
     material: 'Silver',
     density: '5.3',
     specificHeatCapacity: '4.2',
@@ -80,7 +80,7 @@ const testData = [
   {
     testId: 4,
     testName: 'Test 4',
-    date: '12/19/2012',
+    datetime: '12/19/2012',
     material: 'Aluminum',
     density: '5.3',
     specificHeatCapacity: '4.2',
@@ -91,7 +91,7 @@ const testData = [
   {
     testId: 5,
     testName: 'Test 5',
-    date: '12/19/2012',
+    datetime: '12/19/2012',
     material: 'Aluminum',
     density: '5.3',
     specificHeatCapacity: '4.2',
@@ -102,7 +102,7 @@ const testData = [
   {
     testId: 6,
     testName: 'Test 6',
-    date: '12/19/2012',
+    datetime: '12/19/2012',
     material: 'Aluminum',
     density: '5.3',
     specificHeatCapacity: '4.2',
