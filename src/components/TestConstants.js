@@ -1,17 +1,21 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import InputField from './InputField';
 import { My_Soul } from 'next/font/google';
 import Modal from './Modal';
 import axios from 'axios';
 
 const TestConstants = () => {
+
+  const router = useRouter();
+
   const [testSetup, setTestSetup] = useState({
     testName: '',
     material: '',
     density: '1',
-    specificHeat: '1',
-    tcdistance: '',
+    specificHeatCapacity: '1',
+    tcDistance: '',
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,17 +39,19 @@ const TestConstants = () => {
       }
 
       const response = await axios.post('http://localhost:80/startTest', testSetup);
+    
+      // Send request to controls and what's needed
 
-      // Handle the response from the server
       console.log('Test started successfully:', response.data);
-      // Additional logic here for successful test start (e.g., redirecting, updating UI)
-  
+      // Redirect to test of testId
+      const testId = response.data.testId; 
+      router.push(`/test/${testId}`);
+
     } catch (error) {
       console.error('Error starting test:', error);
       // Handle errors here (e.g., showing error messages to the user)
     }
   };
-  
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -119,11 +125,11 @@ const TestConstants = () => {
               Start Test
             </button>
             {isModalOpen && (
-              <Modal 
-                action="Start Test"
-                onCancel={handleCloseModal}
-                onSubmit={() => handleSubmit(testSetup)}
-              />
+                <Modal 
+                  action="Start Test"
+                  onCancel={handleCloseModal}
+                  onSubmit={() => handleSubmit(testSetup)}
+                />                
             )}
           </div>  
         </div>

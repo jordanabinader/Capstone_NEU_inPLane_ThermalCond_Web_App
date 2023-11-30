@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 
 const ScrollToTest = () => {
 
@@ -25,8 +25,7 @@ const ScrollToTest = () => {
         onClick={handleScroll}
       >
         Test Set Up
-      </button>
-  );
-}
+      </button>             
+)}
 
 export default ScrollToTest;

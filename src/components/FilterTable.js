@@ -4,8 +4,7 @@ import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import PreviousJobsTable from './PreviousJobsTable'
-
-//TODO: Work on the handle change for the input boxes
+import axios from 'axios';
 
 const sortOptions = [
   { name: 'Date', href: '#', current: true },
@@ -43,84 +42,27 @@ const initialFilters = [
   },
 ]
 
-const testData = [
-  {
-    testId: 1,
-    testName: 'Test 1',
-    datetime: '12/12/2012',
-    material: 'Copper',
-    density: '3.3',
-    specificHeatCapacity: '2.2',
-    tcDistance: '5',
-    diffusivity: '2',
-    conductivity: '1'
-  },
-  {
-   testId: 2,
-    testName: 'Test 2',
-    datetime: '12/13/2012',
-    material: 'Gold',
-    density: '4.3',
-    specificHeatCapacity: '2.2',
-    tcDistance: '5',
-    diffusivity: '2',
-    conductivity: '1'
-  },
-  {
-    testId: 3,
-    testName: 'Test 3',
-    datetime: '12/13/2012',
-    material: 'Silver',
-    density: '5.3',
-    specificHeatCapacity: '4.2',
-    tcDistance: '5',
-    diffusivity: '2',
-    conductivity: '1'
-  },
-  {
-    testId: 4,
-    testName: 'Test 4',
-    datetime: '12/19/2012',
-    material: 'Aluminum',
-    density: '5.3',
-    specificHeatCapacity: '4.2',
-    tcDistance: '5',
-    diffusivity: '2',
-    conductivity: '1'
-  },
-  {
-    testId: 5,
-    testName: 'Test 5',
-    datetime: '12/19/2012',
-    material: 'Aluminum',
-    density: '5.3',
-    specificHeatCapacity: '4.2',
-    tcDistance: '5',
-    diffusivity: '2',
-    conductivity: '1'
-  },
-  {
-    testId: 6,
-    testName: 'Test 6',
-    datetime: '12/19/2012',
-    material: 'Aluminum',
-    density: '5.3',
-    specificHeatCapacity: '4.2',
-    tcDistance: '5',
-    diffusivity: '2',
-    conductivity: '1'
-  },
-]
 export default function FilterTable() {
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [filters, setFilters] = useState(initialFilters);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // Fetch data and set it using setData
-    setData(testData)
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:80/queryAllRows/test_directory`);
+        setData(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+    }, []); 
 
   useEffect(() => {
     filterData()
@@ -141,7 +83,7 @@ export default function FilterTable() {
   };
 
   const filterData = () => {
-    let filteredData = [...testData];
+    let filteredData = [...data];
     filters.forEach(filter => {
       if (filter.searchTerm) {
         console.log('filtering')
@@ -161,6 +103,9 @@ export default function FilterTable() {
 
     setData(filteredData);
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="bg-white">

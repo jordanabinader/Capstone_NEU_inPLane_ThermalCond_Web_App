@@ -1,9 +1,10 @@
 'use client';
 import React, {useState} from 'react';
+import Link from 'next/link';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 
 // TODO: EDIT LINK LOGIC
-const itemsPerPage = 12;
+const itemsPerPage = 6;
 
 const TableComponent = ({ data }) => {
 
@@ -78,7 +79,7 @@ const TableComponent = ({ data }) => {
               <td className="px-6 py-4">{row.conductivity}</td>
               <td className="px-6 py-4">
               
-                <a href={'/previous-jobs/' + row.testId} className="font-medium text-red-600 hover:underline">Edit</a>
+                <a href={'/previous-jobs/' + row.testId} className="font-medium text-red-600 hover:underline" >Edit</a>
                 <a href="#" className="font-medium text-red-600 hover:underline ml-2">Delete</a>
               </td>
             </tr>
@@ -104,7 +105,6 @@ const TableComponent = ({ data }) => {
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               <span className="sr-only">Previous</span>
             </a>
-            {/* You could add page number buttons here */}
             {Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
               <a
                 key={number}

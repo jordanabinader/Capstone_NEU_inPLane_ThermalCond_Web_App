@@ -13,6 +13,7 @@ export default function NavBar() {
           });
         }
       }, []);
+      
     return (
         <div className="min-h-full">
             <nav className="bg-gray-500 fixed top-0 left-0 w-full z-50">
@@ -27,7 +28,7 @@ export default function NavBar() {
                                     <ScrollToTest />
                                     <Link href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Home</Link>
                                     <Link href="/previous-jobs" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Previous Jobs</Link>
-                                </div>
+                                </div>                                  
                             </div>
                         </div>
                     </div>

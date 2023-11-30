@@ -2,10 +2,18 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { useRouter } from 'next/navigation';
 
 export default function Modal({action, onCancel, onSubmit}) {
   const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef(null)
+  const router = useRouter();
+  const currentPath = router.pathname;
+  // Define a regular expression for the URL pattern
+  const testPagePattern = /^\/test\/[^/]+$/; // Matches /test/[testId]
+  // Check if currentPath matches the pattern
+  const isTestPage = testPagePattern.test(currentPath);
+  
 
   return (
     <Transition.Root show={open} as={Fragment}>

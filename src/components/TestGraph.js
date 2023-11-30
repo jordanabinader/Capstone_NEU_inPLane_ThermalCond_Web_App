@@ -1,19 +1,24 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './TestGraph.module.css';
 import InputField from './InputField';
 import Modal from './Modal';
 import stylesBox from './KpiBox.module.css'
+import axios from 'axios';
 
-const TestGraph = () => {
+
+const TestGraph = (frequency, amplitude, dutyCycle) => {
+    const router = useRouter();
     const [togglePosition, setTogglePosition] = useState('left');
     const [buttonStyle, setButtonStyle] = useState({});
     const [formData, setFormData] = useState({
-        frequency: '',
-        amplitude: '',
-        duty_ratio: ''
+        frequency: frequency,
+        amplitude: amplitude,
+        duty_ratio: dutyCycle,
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModal2Open, setIsModal2Open] = useState(false);
 
     const leftClick = () => {
         setButtonStyle({ left: '0' });
@@ -25,24 +30,34 @@ const TestGraph = () => {
         setTogglePosition('right');
     };
 
-    const handleTestStop = () => {
-        // Stop test functionality
-        console.log('Stop test')
+    const handleTestStop = async () => {
+        try {
+            const response = await axios.post('http://localhost:3001/test-end');
+            console.log('Test stopped successfully:', response.data);
+            router.push(`/previous-jobs`);
+        } catch (error) {
+            console.error('Error stopping test:', error);
+        }
     };
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
     };
-    
+    const handleOpenModal2 = () => {
+        setIsModal2Open(true);
+    };
     const handleCloseModal = () => {
         setIsModalOpen(false);
+    };
+    const handleCloseModal2 = () => {
+        setIsModal2Open(false);
     };
 
     const handleTextChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
     
-    const handleSubmit = async (e) => {
+    const handleSubmitChanges = async (e) => {
         handleCloseModal();
         e.preventDefault();
         // Send formData to the API endpoint
@@ -75,10 +90,17 @@ const TestGraph = () => {
                             className="rounded-md bg-red-600 px-3.5 py-2.5 mb-4 text-md font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" 
                             aria-current="page" 
                             type="button" 
-                            onClick={handleTestStop}
+                            onClick={handleOpenModal2}
                         >
                             Stop Test
                         </button>
+                        {isModal2Open && (
+                            <Modal 
+                                action="Stop Test"
+                                onCancel={handleCloseModal2}
+                                onSubmit={handleTestStop}
+                            />
+                        )}
                     </div>
                 </div>
                 <div>
@@ -150,9 +172,8 @@ const TestGraph = () => {
                                 <Modal 
                                     action="Submit Changes"
                                     onCancel={handleCloseModal}
-                                    onSubmit={handleSubmit}
+                                    onSubmit={handleSubmitChanges}
                                 />
-                                
                                 )}
                             </div>  
                         </form>
